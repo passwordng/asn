@@ -1,0 +1,784 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>AN Lab 3 - SDN </title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="1d585fab-f834-4e0e-81db-b167830749fb" class="page sans"><header><h1 class="page-title">AN Lab 3 - SDN </h1></header><div class="page-body"><h2 id="e22a2ef6-da29-4ebb-9aa8-c4273628a34b" class="">Lateef Abimbola Hamzat </h2><h2 id="2849bbf8-a371-474d-a2a0-fc9593fcb95f" class="">1. Preparation:</h2><p id="a87eb141-e04a-426e-89b3-78b7f17db981" class="">
+</p><p id="25d73fdd-f560-4506-b33e-f7bb6879b697" class="">a. Select an SDN controller that you would like to try. For example (opendaylight, Ryu, faucet, ONOS, ...).</p><p id="c49b257c-deea-4b71-9b40-d34c3b32aafa" class="">I chose ONOS as my SDN Platform of choice to be used in this lab</p><p id="39d24d06-7cfc-4139-a674-a8a3d8be144c" class="">b. GNS3 might already have a template for these controllers, try to use these templates as it will save you a lot of time and troubleshooting.</p><p id="484b53d6-63d4-4010-bd56-f61d9d995852" class="">c. You can use OpenVSwitch as your virtual switching solution (check ovs-vsctl command)</p><p id="ad51b13f-b1c1-4367-ab8a-9ebc72125f9e" class="">d. Try to draw a network scheme before you start the lab. This will help you in the deployment</p><p id="873c8f68-f49d-4317-9cbb-e8d504c5dc19" class="">phase.</p><p id="8af2c6b0-b10d-4a3b-a1bc-67835a4ac7ee" class="">
+</p><p id="e0d58f25-ac82-478f-8426-aba72f3b039c" class="">
+</p><figure id="118bfebc-1952-48b5-a4fd-2d0e7cd69d99" class="image"><a href="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled.png"><img style="width:1203px" src="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled.png"/></a></figure><p id="b9531f99-62a9-4aed-a447-9ebd1a42c00a" class="">
+</p><p id="2bdb22ec-270b-44ef-9fc4-a214854d4ac0" class="">
+</p><h2 id="a0ef42f1-5f69-4224-a462-fb67bcbc8f52" class="">2. Deployment:</h2><p id="005e529c-d30e-4b30-bba4-e027329b5920" class="">a. Try to redo one of the previous labs, but this time with SDN</p><p id="98308fd7-d318-4ee7-b366-3b6a9e6ebcda" class="">I started out by rolling up the configuration for routers and the network putting into consideration the plan to work on one of the previous lab.  As you can see below are option of OSPF in the configuration between R1 and R2. </p><p id="8fc06452-80b7-4490-9c6c-4f58dbc46d60" class="">
+</p><pre id="5f2794bd-543c-47f1-96e6-aa867d6f3c06" class="code"><code>R1(config)# interface fa0/0
+R1(config-if)# ip address dhcp
+R1(config-if)# no shutdown
+R1(config-if)# ip nat outside
+R1(config-if)# exit
+
+
+R1(config)# interface fa0/1
+R1(config-if)# ip address 172.16.1.254 255.255.255.0
+R1(config-if)# no shutdown
+R1(config-if)#ip ospf 1 area 0
+R1(config-if)# ip nat inside
+R1(config-if)# exit
+
+R1(config)# access-list 1 permit 172.16.1.0 0.0.0.255   
+R1(config)# ip nat inside source list 1 interface fa0/0 overload
+</code></pre><p id="eaf6dc68-dd6f-44aa-ae14-fb1d8525e7db" class="">
+</p><p id="c3a24ee6-9163-483f-b2f8-89a4763bbf43" class="">
+</p><pre id="5571429b-14bf-4717-a013-e2f1b1730b27" class="code"><code># ovs-vsctl set-controller br0 tcp:172.16.1.1:6653</code></pre><p id="622909a4-96db-41b4-a7f9-9dcaea00cd87" class="">
+</p><pre id="35d4ca42-156b-426a-8dc7-9b216314f116" class="code"><code>..............R1
+R1(config)#interface fa2/0
+R1(config-if)#ip address 10.0.0.1 255.255.255.0
+R1(config-if)#no shutdown
+R1(config-if)#ip ospf 1 area 0
+R1(config-if)#exit
+
+..............R2
+
+R2(config)#interface fa2/0
+R2(config-if)#ip address 10.0.0.2 255.255.255.0
+R2(config-if)#no shutdown
+R2(config-if)#ip ospf 1 area 0
+R2(config-if)#exit
+
+
+R2(config)#interface fa0/0
+R2(config-if)#ip address 192.168.5.254 255.255.255.0
+R2(config-if)#no shutdown
+R2(config-if)#ip ospf 1 area 0
+R2(config-if)#exit</code></pre><p id="f2c136af-6645-4d4c-bfdb-8bbb2cb7858d" class="">
+</p><figure id="b920b12b-09b7-46e3-87f6-ce1fbdaf5806" class="image"><a href="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled%201.png"><img style="width:733px" src="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled%201.png"/></a><figcaption>OSPF Enabled on R2</figcaption></figure><p id="55224cee-8dde-48ba-b558-2fc621bcead4" class="">
+</p><figure id="d4b0b885-097a-417a-902e-d73cc7d1f961" class="image"><a href="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled%202.png"><img style="width:733px" src="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled%202.png"/></a><figcaption>OSPF Enabled on R1</figcaption></figure><p id="6000d726-b048-4383-afa6-43c8cecfa397" class="">
+</p><p id="824d9803-a366-426f-ad26-366fbab08368" class="">PCs on each side of the network were also configured using the command below to be able to make them ready to work within the network structure.</p><pre id="4ffe4302-f8fa-4f71-aba7-65dfce780697" class="code"><code>PC1
+sudo ifconfig ens3 172.16.1.15 netmask 255.255.255.0 
+sudo route add default gw 172.16.1.254
+
+PC2
+sudo ifconfig ens3 172.16.1.10 netmask 255.255.255.0 
+sudo route add default gw 172.16.1.254
+
+PC3
+sudo ifconfig ens3 172.16.1.12 netmask 255.255.255.0 
+sudo route add default gw 172.16.1.254
+
+PC4
+sudo ifconfig ens3 192.168.5.10 netmask 255.255.255.0 
+sudo route add default gw 192.168.5.254
+
+PC5
+sudo ifconfig ens3 192.168.5.12 netmask 255.255.255.0 
+sudo route add default gw 192.168.5.254</code></pre><p id="202470ef-dd3b-4b71-a3bb-fe6160d0b17e" class=""> Below are the screenshot of the configurations for each of the PC. From PC1 to PC5</p><p id="ac13fbba-e95a-4694-adf1-3c95c5eda272" class="">
+</p><figure id="a0052f8c-95d0-4ee5-ba2d-8e562360285d" class="image"><a href="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled%203.png"><img style="width:676px" src="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled%203.png"/></a></figure><p id="026e473d-48fa-40fc-b8f0-5c5683bc21cf" class="">
+</p><figure id="95122140-9dc7-4d87-b7c9-d8ceb4048010" class="image"><a href="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled%204.png"><img style="width:736px" src="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled%204.png"/></a></figure><p id="8d68a75e-5015-4b5e-8f71-d8cfb174fcf5" class="">
+</p><figure id="91c0316b-d63c-433f-b5e5-74df39e1ae0c" class="image"><a href="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled%205.png"><img style="width:685px" src="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled%205.png"/></a></figure><p id="1688a68e-48cf-4c50-8a75-d3f40f137463" class="">
+</p><figure id="23633152-c208-45d5-b761-1a2a786cf282" class="image"><a href="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled%206.png"><img style="width:726px" src="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled%206.png"/></a></figure><p id="8d3a1be5-0480-4eae-ab01-a0b27f02891a" class="">
+</p><figure id="c4a36c78-114f-4d13-99e7-792c548ed5fc" class="image"><a href="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled%207.png"><img style="width:733px" src="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled%207.png"/></a></figure><p id="5c7b75d8-1fbb-4b55-acc2-d03653a87a89" class="">
+</p><p id="21c25991-6482-4a15-abf0-0d9137120551" class="">Each of the OpenvSwitces were also configured according to the part of the network they will be working from. Below are the command used and  screenshots.</p><pre id="e44c590c-34c4-4f86-a227-23feb957599d" class="code"><code>/ # ifconfig eth0 172.16.1.2 netmask 255.255.255.0</code></pre><p id="8c21c26a-5d9c-42a6-a731-6bdf8c950220" class="">
+</p><figure id="eb4fe883-a644-40a1-839b-121fa7e957df" class="image"><a href="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled%208.png"><img style="width:741px" src="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled%208.png"/></a><figcaption>Configured OpenvSwitch-1</figcaption></figure><p id="9a8c9447-422a-4745-a676-25f8ad93fff0" class="">
+</p><pre id="9a1f0d57-f274-4a32-9eec-2a3d908a9436" class="code"><code>/ # ifconfig eth0 172.16.1.3 netmask 255.255.255.0</code></pre><p id="1fed3072-b390-41ec-a670-dd59bee37bbc" class="">
+</p><figure id="1b163fd3-5c7a-4c16-a3aa-ff533acbdffb" class="image"><a href="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled%209.png"><img style="width:736px" src="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled%209.png"/></a><figcaption>Configured OpenvSwitch-2</figcaption></figure><p id="0e0ad56a-49ec-4a18-a039-ab647808c97e" class="">
+</p><pre id="d6d7cda1-aaa6-4d79-b3ca-bbca67d62117" class="code"><code>/ #  ifconfig eth0 172.16.1.4 netmask 255.255.255.0</code></pre><p id="b40f918e-b25e-400b-8f6f-5b5198127992" class="">
+</p><figure id="121f7a00-c3b7-4c31-b069-87dfd9723a71" class="image"><a href="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled%2010.png"><img style="width:735px" src="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled%2010.png"/></a><figcaption>Configured OpenvSwitch-3</figcaption></figure><p id="cd516c98-837e-4761-bff8-acf9bedea515" class="">
+</p><pre id="76e724a2-3394-4404-ba18-6a09aad03736" class="code"><code>/ # ifconfig eth0 192.168.5.2 netmask 255.255.255.0</code></pre><p id="b5dc07fe-984e-4de5-b611-f8740bc07223" class="">
+</p><figure id="a91b9e7e-334e-479d-b30c-8186307cd98e" class="image"><a href="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled%2011.png"><img style="width:732px" src="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled%2011.png"/></a><figcaption>Configured OpenvSwitch-4</figcaption></figure><p id="f03b199f-79dd-48cd-837a-6fcb5a20ee42" class="">Using the command below, I was able to enable STP on all Configured OpenvSwitches to take of the loop and allow communication between them. This command was ran all of them.</p><pre id="daf5b504-546b-42e0-beca-110bbed4af50" class="code"><code>/ # ovs-vsctl set Bridge br0 stp_enable=true
+/ # ovs-ofctl show br0</code></pre><p id="115f6088-7b2a-47e8-aea0-c046a62bba0c" class="">The screenshot below indicated the effect of the commands on port not being use as they are now in a blocking state shown below.</p><figure id="1ce64b6a-2f62-4879-bef7-b094a50c314d" class="image"><a href="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled%2012.png"><img style="width:739px" src="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled%2012.png"/></a><figcaption>STP enabled on the bridge Br0 on all switches.</figcaption></figure><p id="b2dd0a62-8199-4920-b13b-e451e361befe" class="">
+</p><pre id="455b62ad-7eef-4c51-81ee-bdebe3930d87" class="code"><code>ping 172.16.1.2
+ping 172.16.1.3
+ping 172.16.1.4</code></pre><p id="beaa5e68-5756-4df1-9cbe-f1a52b213ac4" class="">
+</p><figure id="6d0a3f53-8f4e-4db0-9739-cd096cf92d3b" class="image"><a href="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled%2013.png"><img style="width:1033px" src="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled%2013.png"/></a></figure><p id="e0f5eddb-d395-4e4a-a772-0c8ea913e089" class="">
+</p><p id="b30d1aa4-fb7c-4ba7-a6da-c7f70dbe64f8" class="">To set up the ONOS controller, I decided to use the docker. Which by running the following command, I was able to pull the ONOS into docker, then I started the container by ensuring to have exposed all necessary ports needed as shown below.</p><p id="7e9a9e09-2b88-44ab-a369-ce9ffea563ca" class="">
+</p><pre id="bbfd6a03-20ea-4cf6-944c-383b0899ab39" class="code"><code>sudo docker pull onosproject/onos
+sudo docker ps -a
+sudo docker rm /onos
+
+</code></pre><p id="ca6b2d7f-9a83-4b6b-ac25-6d7e8a399b46" class="">
+</p><figure id="10098655-e892-49dd-895d-de4e6be545b1" class="image"><a href="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled%2014.png"><img style="width:739px" src="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled%2014.png"/></a><figcaption>Pulling ONOS using docker.</figcaption></figure><p id="1b765719-fe53-4e32-9738-a0bb371db772" class="">
+</p><p id="56196e24-ab74-4abd-aa11-7abdf5c9853c" class="">After the completion of the ONO&#x27;s pulling. I used the command below to run the ONOS from the docker and I got the GUI and the CLI as shown below.  I enabled the CLI using SSH login into it as follow.</p><pre id="b1f50d2a-960e-47af-9fb5-75fdbcc96b99" class="code"><code>sudo docker run -d -p 6653:6653 -p 6640:6640 -p 8181:8181 -p 8101:8101 -p 9876:9876 --name=onos onosproject/onos
+sudo onos@172.16.1.1 -p 8101</code></pre><p id="fa2eb05a-0998-41d6-989b-59ad4d87d671" class="">
+</p><figure id="8a6c3102-06e6-48db-98df-aa4320aaa1fd" class="image"><a href="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled%2015.png"><img style="width:720px" src="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled%2015.png"/></a><figcaption>ONOS GUI</figcaption></figure><p id="50c6e64d-453f-4bec-a360-3b9eaee60929" class="">
+</p><figure id="e6eeeb56-eeee-4add-b703-8ea53fea9132" class="image"><a href="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled%2016.png"><img style="width:1018px" src="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled%2016.png"/></a><figcaption>ONOS CLI </figcaption></figure><p id="0764f468-5f2e-4116-81c7-3b8bb13f87bc" class="">
+</p><p id="cf700fd0-6d38-461d-a882-e4bde5f18ead" class="">From the dashboard on the web GUI, I started activating the applications needed to make the network setup work with the ONOS controller. There were many of them but the Reactive Forwarding app is important</p><p id="0b477f29-c6d1-4b10-ab9b-84c35cb48c2f" class="">
+</p><figure id="26f27570-a1a2-4bd4-9049-15da0d28f5e8" class="image"><a href="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled%2017.png"><img style="width:1024px" src="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled%2017.png"/></a><figcaption>Installation of Required Apps from ONOS Web GUI.</figcaption></figure><p id="7a8cc9f2-8af5-4840-8f3b-0be7142895e3" class="">
+</p><p id="3c4eeb73-f88f-4e65-99a7-54b0591d9881" class="">Now to make the controllers work with the switches. I have to configured the switches to use the ONOS controller as it controllers using the commands below. </p><p id="54b27f8e-7442-4f5d-a95a-e8c97b1bb947" class="">
+</p><pre id="3c4ae933-bbf8-4557-93f4-569d4497c1b1" class="code"><code>ovs-vsctl set-controller br0 tcp:172.16.1.1:6653
+ovs-vsctl list controller</code></pre><p id="bb1f2f61-f4a3-445d-9fb0-61ab331fc15a" class="">
+</p><figure id="639f5ca9-c3c3-4136-a869-720e897cf6a6" class="image"><a href="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled%2018.png"><img style="width:735px" src="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled%2018.png"/></a><figcaption>Setting controller on OpenvSwitch-1</figcaption></figure><p id="74493b0a-e0d5-4c3d-9b43-5586e0c91989" class="">
+</p><figure id="fb4daad3-6d4c-4b82-9530-9fa64944470b" class="image"><a href="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled%2019.png"><img style="width:736px" src="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled%2019.png"/></a><figcaption>Setting controller on OpenvSwitch-4</figcaption></figure><p id="25b440bf-8421-4d24-8910-8a5c48765ecf" class=""> </p><p id="1e8c2201-1de7-4ef9-ae7e-5867f296879c" class="">After setting the controller, I ensure the endpoint can now communicate with each other by testing a ping request between PC3 and PC4 and vice versa. The screenshot below indicated a success.</p><p id="98312b93-4ac4-404d-b7ee-eae30983f903" class="">
+</p><figure id="8e1b3377-aa30-4a6a-ade6-9e800a70e560" class="image"><a href="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled%2020.png"><img style="width:1493px" src="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled%2020.png"/></a><figcaption>Testing connectivity between PCs on different Network.</figcaption></figure><p id="2f6aff9f-717a-4d60-b76f-56946dcc933b" class="">
+</p><p id="876722e6-eb45-41ba-a742-71bdc301b9c8" class="">Here is what the topology looks like in the ONOS Web GUI indicating the devices, links, and number of hosts on the topology.</p><p id="f853ce85-f1cf-4d2b-a853-2d8e0c0b71c8" class="">
+</p><figure id="112b4aa8-89af-44c9-998d-c0c464fc717a" class="image"><a href="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled%2021.png"><img style="width:1018px" src="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled%2021.png"/></a><figcaption>Network Topology from ONOS Web GUI</figcaption></figure><p id="22e666e5-c747-47e2-a144-b51472c05e73" class="">
+</p><figure id="07fda637-3b70-450d-8eac-6eeff28c9847" class="image"><a href="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled%2022.png"><img style="width:1021px" src="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled%2022.png"/></a><figcaption>Network Devices Identified by ONOS.</figcaption></figure><p id="7390c0b8-7dca-4d2f-8a8e-12697fc7ecb3" class="">
+</p><figure id="c20f6278-be49-4de6-80de-c87bf675dd14" class="image"><a href="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled%2023.png"><img style="width:1021px" src="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled%2023.png"/></a><figcaption>Host Identified by ONOS.</figcaption></figure><p id="96314a9f-ce33-4005-a44e-435ab9272fbe" class="">
+</p><h2 id="e1c147ea-b0d8-453a-9bd0-a9b2e4ca9363" class="">3. Verification:</h2><p id="76e03406-6b4c-4526-89f9-a3eaf769d963" class="">a. Show your SDN flows that are related to the previous lab that will redo</p><p id="ffb65d39-5a65-4417-ae5f-66c23d386ca2" class="">
+</p><p id="f290feb7-9e86-460f-973d-579da904a99b" class="">On clicking on one of the Network Device  (OpenvSwitch), we can see the network flow and also same data is available in the CLI as shown below.</p><p id="0ff3c91d-9646-4315-a510-1e3cbcac493f" class="">
+</p><figure id="4fdb99b8-c619-4ee9-8a63-3835753c0d60" class="image"><a href="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled%2024.png"><img style="width:937px" src="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled%2024.png"/></a><figcaption>Flows in Network in Web GUI.</figcaption></figure><p id="dd9d9bd6-8d74-42bb-8f8f-cb5576aa50e0" class="">
+</p><figure id="238ec58d-578c-4269-9eea-830c5e36d0fc" class="image"><a href="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled%2025.png"><img style="width:879px" src="AN%20Lab%203%20-%20SDN%20118bfebc195248b5a4fd2d0e7cd69d99/Untitled%2025.png"/></a><figcaption>Flows In Network in CLI</figcaption></figure><p id="5bbaa3e7-953c-4f06-a009-96a79cbddadc" class="">
+</p><p id="bf056eea-8669-4734-b776-574386c59b22" class="">b. Try to explain what are the fields in each flow</p><p id="ea54bdae-0002-4ab2-afdc-fc4546595666" class="">
+</p><p id="8c03747f-0a80-4737-afa9-2c6a7c22c363" class="">The following fields are in the in the flows and explain below:</p><p id="d6ff722b-b6e1-4d63-9935-7323a42111c2" class=""><strong>Id: </strong>contains the unique flow ID.</p><p id="d979a0dd-9671-4080-935e-c0fb959cf5db" class=""><strong>Packet:</strong> shows the number of packets that have been transmitted for that flow.</p><p id="7bdda3bc-13b3-40d3-8332-70b463383d15" class=""><strong>State:</strong> The &quot;State&quot; field is used to know the status of the flow on the switch. Flow state &quot;Added&quot; indicates that the flow has been added to the switch.</p><p id="7ce19884-4388-4e26-9d3d-90cadebeceef" class=""><strong>Flow Priority</strong>: determine the order in which flows are matched. Higher priority flows are considered first before lower priority flows.</p><p id="bfc75834-78e0-404b-a2b7-752f66fab3a1" class=""><strong>Duration: </strong>shows the length of time the flow has existed on the switch. Always measured in  seconds.</p><p id="051e6f85-cd87-4558-bd1f-0a3bf2b09fa9" class=""><strong>Traffic Treatment:</strong> specifies how the matched traffic should be handled.</p><p id="42ec865f-a046-4df9-a1de-f64ecba15b3d" class=""><strong>Selector:</strong> The selector is used to match the traffic with the flow entry. There are several selector from the flow screenshot above such as ETH_TYPE=arp, lldp. bddp, ipv4</p><p id="fe6e02cd-5faf-4ea7-8748-3ff5496a00ab" class=""><strong>appId:</strong> contains the components of the package name. org.onosproject.core is ONOS core API definitions</p><p id="b6484996-c328-433b-aa1b-d4810adead17" class="">
+</p><h2 id="9ccfc088-1b47-4826-80a1-e2cf9d61456b" class="">References</h2><p id="094e4641-2c47-4577-9cc3-b96c43bb3653" class=""><a href="https://wiki.onosproject.org/display/ONOS/Accessing+the+CLI+and+GUI">https://wiki.onosproject.org/display/ONOS/Accessing+the+CLI+and+GUI</a></p><p id="6799ac0d-89d1-48ff-93da-9ecd8657cda7" class=""><a href="http://manpages.ubuntu.com/manpages/xenial/man8/ovs-ofctl.8.html">http://manpages.ubuntu.com/manpages/xenial/man8/ovs-ofctl.8.html</a></p><p id="91777a8d-700d-4843-bc6e-f3d0892a9fad" class=""><a href="https://docs.pica8.com/display/picos2102cg/Connecting+to+a+Controller">https://docs.pica8.com/display/picos2102cg/Connecting+to+a+Controller</a></p><p id="4be5e2af-5e21-4343-abb7-d15333467cfe" class=""><a href="http://osrg.github.io/ryu-certification/switch/of14/config/ovs.html">http://osrg.github.io/ryu-certification/switch/of14/config/ovs.html</a></p><p id="33f81abb-5087-4a6a-9c7e-4784946df6c7" class=""><a href="https://wiki.onosproject.org/display/ONOS/Installing+on+a+single+machine">https://wiki.onosproject.org/display/ONOS/Installing+on+a+single+machine</a></p><p id="9da4c8d9-9ca7-4df0-bdbd-f033148e873e" class=""><a href="https://stackoverflow.com/questions/60744352/onos-service-start-frameworkevent-error-and-gui-not-ready-yet">https://stackoverflow.com/questions/60744352/onos-service-start-frameworkevent-error-and-gui-not-ready-yet</a></p><p id="0882a085-872f-45f6-9d58-2e3f155ea2bb" class=""><a href="https://www.youtube.com/watch?v=sQvSUG3NLL0&amp;feature=youtu.be">https://www.youtube.com/watch?v=sQvSUG3NLL0&amp;feature=youtu.be</a></p><p id="4beba77c-b4f4-40de-a268-449801043837" class=""><a href="https://remote-lab.net/basic-ospf-routing-lab">https://remote-lab.net/basic-ospf-routing-lab</a></p><p id="e61fd418-6685-433f-9ea2-2a79d9fef7c3" class=""><a href="https://wiki.onosproject.org/display/ONOS/OSPF+as+SBI">https://wiki.onosproject.org/display/ONOS/OSPF+as+SBI</a></p><p id="990e4041-14eb-4c7a-8db0-7f66f602dd85" class="">
+</p></div></article></body></html>
